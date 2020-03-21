@@ -3,6 +3,7 @@ package ru.levelup.model;
 import ru.levelup.db.ColorConverter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table
@@ -28,6 +29,9 @@ public class User {
 //    @ManyToMany(mappedBy = "users")
 //    private List<Group> group;
     private Group group;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date registrationDate = new Date();
 
     public int getX() {
         return 999;
