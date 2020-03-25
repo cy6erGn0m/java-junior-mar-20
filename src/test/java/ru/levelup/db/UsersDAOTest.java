@@ -81,7 +81,7 @@ public class UsersDAOTest {
         manager.persist(g);
         manager.getTransaction().commit();
 
-        User user = users.createUser("login1", new Color(1, 2, 3), g);
+        User user = users.createUser("login1", "pass", new Color(1, 2, 3), g);
         assertNotNull(user);
         assertEquals("login1", user.getLogin());
         assertNotNull(user.getGroup());

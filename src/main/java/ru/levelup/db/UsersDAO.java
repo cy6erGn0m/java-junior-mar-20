@@ -4,9 +4,12 @@ import com.sun.istack.Nullable;
 import ru.levelup.model.Color;
 import ru.levelup.model.Group;
 import ru.levelup.model.User;
+import ru.levelup.model.UserStatus;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class UsersDAO {
@@ -32,6 +35,10 @@ public class UsersDAO {
         return group;
     }
 
+    public List<Group> findAllGroups() {
+        return manager.createQuery("from Group", Group.class).getResultList();
+    }
+
     @Nullable
     public Group findGroupByName(String name) {
         try {
@@ -43,11 +50,12 @@ public class UsersDAO {
         }
     }
 
-    public User createUser(String login, Color color, Group group) {
+    public User createUser(String login, String password, Color color, Group group) {
         User user = new User();
         user.setLogin(login);
         user.setColor(color);
         user.setGroup(group);
+        user.setPassword(password);
 
         manager.getTransaction().begin();
         try {
@@ -71,5 +79,27 @@ public class UsersDAO {
         } catch (NoResultException cause) {
             return null;
         }
+    }
+
+    public void banUser(User user) {
+        manager.getTransaction().begin();
+        user.setStatus(UserStatus.BANNED);
+        manager.getTransaction().commit();
+    }
+
+    public void banUserBefore(Date registeredBefore) {
+        manager.getTransaction().begin();
+        try {
+            manager.createQuery("UPDATE User set status = :status " +
+                    "where registrationDate < :before")
+                    .setParameter("status", UserStatus.BANNED)
+                    .setParameter("before", registeredBefore)
+                    .executeUpdate();
+        } catch (Throwable cause) {
+            manager.getTransaction().rollback();
+            throw cause;
+        }
+
+        manager.getTransaction().commit();
     }
 }

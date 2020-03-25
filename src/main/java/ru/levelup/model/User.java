@@ -12,8 +12,11 @@ public class User {
     @GeneratedValue
     private int id;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false, unique = true)
     private String login;
+
+    @Column(length = 50, nullable = false)
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
@@ -75,5 +78,21 @@ public class User {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
 }

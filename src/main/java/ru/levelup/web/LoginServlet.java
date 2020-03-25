@@ -1,12 +1,15 @@
 package ru.levelup.web;
 
+import ru.levelup.db.UsersDAO;
+import ru.levelup.model.User;
+
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet(urlPatterns = { "/user/profile/*", "/login" })
 public class LoginServlet extends HttpServlet {
@@ -25,7 +28,19 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("usernameField");
         String password = req.getParameter("passwordField");
 
-        if (username != null && password != null && username.equals("test") && password.equals("123")) {
+        EntityManager manager = PersistenceUtils.createManager(req.getServletContext());
+        UsersDAO users = new UsersDAO(manager);
+
+        User user = null;
+        try {
+            if (username != null) {
+                user = users.findUserByLogin(username);
+            }
+        } finally {
+            manager.close();
+        }
+
+        if (user != null && password != null && password.equals(user.getPassword())) {
             req.getSession().setAttribute("verifiedUserName", username);
             resp.sendRedirect(req.getContextPath());
         } else {
