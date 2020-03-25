@@ -100,6 +100,7 @@ public class UsersDAOTest {
         user.setLogin("login2");
         user.setGroup(g);
         user.setColor(new Color(2, 3, 4));
+        user.setPassword("111");
 
         manager.getTransaction().begin();
         manager.persist(g);

@@ -37,6 +37,7 @@ public class SmokeTest {
         User user = new User();
         user.setLogin("test-user");
         user.setColor(new Color(1, 2, 3));
+        user.setPassword("111");
 
         Group group = new Group();
         group.setName("test-group");
