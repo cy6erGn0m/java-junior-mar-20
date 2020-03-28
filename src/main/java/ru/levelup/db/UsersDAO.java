@@ -1,6 +1,9 @@
 package ru.levelup.db;
 
 import com.sun.istack.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 import ru.levelup.model.Color;
 import ru.levelup.model.Group;
 import ru.levelup.model.User;
@@ -12,10 +15,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+@Repository
 public class UsersDAO {
-    private EntityManager manager;
+    private final EntityManager manager;
 
-    public UsersDAO(EntityManager manager) {
+    @Autowired
+    public UsersDAO(@Qualifier("defaultManager") EntityManager manager) {
         Objects.requireNonNull(manager, "EntityManager shouldn't be null");
         this.manager = manager;
     }
@@ -36,7 +41,7 @@ public class UsersDAO {
     }
 
     public List<Group> findAllGroups() {
-        return manager.createQuery("from Group", Group.class).getResultList();
+        return manager.createQuery("SELECT g from Group g", Group.class).getResultList();
     }
 
     @Nullable
@@ -73,7 +78,7 @@ public class UsersDAO {
     @Nullable
     public User findUserByLogin(String login) {
         try {
-            return manager.createQuery("from User u WHERE u.login = :login", User.class)
+            return manager.createQuery("SELECT u from User u WHERE u.login = :login", User.class)
                     .setParameter("login", login)
                     .getSingleResult();
         } catch (NoResultException cause) {
