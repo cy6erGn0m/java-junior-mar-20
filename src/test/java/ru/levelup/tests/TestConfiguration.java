@@ -18,7 +18,7 @@ import javax.persistence.Persistence;
 @ComponentScan(basePackages = {"ru.levelup.web", "ru.levelup.db"},
         excludeFilters = @ComponentScan.Filter(
                 type = FilterType.ASSIGNABLE_TYPE,
-                classes = { ProdConfiguration.class }
+                classes = { ProdConfiguration.class, WebConfiguration.class }
         ))
 public class TestConfiguration {
     @Bean

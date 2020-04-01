@@ -18,11 +18,12 @@ import ru.levelup.model.Color;
 import ru.levelup.model.Group;
 import ru.levelup.model.User;
 import ru.levelup.web.LoginController;
+import ru.levelup.web.WebConfiguration;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestConfiguration.class)
+@ContextConfiguration(classes = {TestConfiguration.class, WebConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @WebAppConfiguration
 public class LoginControllerTest {
