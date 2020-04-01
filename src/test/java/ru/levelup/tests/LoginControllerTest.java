@@ -19,8 +19,7 @@ import ru.levelup.model.Group;
 import ru.levelup.model.User;
 import ru.levelup.web.LoginController;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfiguration.class)
@@ -70,6 +69,8 @@ public class LoginControllerTest {
                         .param("passwordField", "123")
         ).andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"))
+                .andExpect(request().sessionAttribute(LoginController.VERIFIED_USER_NAME_ATTRIBUTE,
+                        "test-login"))
                 .andReturn();
     }
 
