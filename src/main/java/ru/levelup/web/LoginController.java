@@ -19,26 +19,34 @@ import java.io.IOException;
 
 @Controller
 public class LoginController {
+    public static final String
+            VERIFIED_USER_NAME_ATTRIBUTE = "verifiedUserName";
+
     @Autowired
     private UsersDAO users;
 
     @GetMapping(path = "/login")
-    public String loginPage(@RequestParam(required = false) String login) {
+    public String loginPage(@RequestParam(required = false) String login,
+                            HttpSession session) {
+        if (session.getAttribute(VERIFIED_USER_NAME_ATTRIBUTE) != null) {
+            return "redirect:/";
+        }
+
         return "login";
     }
 
     @PostMapping(path = "/login")
-    public String doPost(HttpSession session,
-                         @RequestParam("usernameField") String username,
-                         @RequestParam("passwordField") String password) {
-        if (session.getAttribute("verifiedUserName") != null) {
+    public String processLoginForm(HttpSession session,
+                                   @RequestParam("usernameField") String username,
+                                   @RequestParam("passwordField") String password) {
+        if (session.getAttribute(VERIFIED_USER_NAME_ATTRIBUTE) != null) {
             return "redirect:/";
         }
 
         User user = users.findUserByLogin(username);
 
         if (user != null && password.equals(user.getPassword())) {
-            session.setAttribute("verifiedUserName", username);
+            session.setAttribute(VERIFIED_USER_NAME_ATTRIBUTE, username);
             return "redirect:/";
         } else {
             return "redirect:/login?login=" + username;
