@@ -9,7 +9,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 @ComponentScan(basePackages = {"ru.levelup.web", "ru.levelup.db"})
 public class ProdConfiguration {
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
         bean.setPersistenceUnitName("ProdPersistenceUnit");
         return bean;

@@ -16,7 +16,7 @@ import ru.levelup.web.WebConfiguration;
         ))
 public class TestConfiguration {
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
         bean.setPersistenceUnitName("TestPersistenceUnit");
         return bean;
