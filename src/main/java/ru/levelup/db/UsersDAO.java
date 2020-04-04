@@ -1,9 +1,8 @@
 package ru.levelup.db;
 
 import com.sun.istack.Nullable;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.model.Color;
 import ru.levelup.model.Group;
 import ru.levelup.model.User;
@@ -11,32 +10,19 @@ import ru.levelup.model.UserStatus;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Repository
 public class UsersDAO {
-    private final EntityManager manager;
+    @PersistenceContext
+    private EntityManager manager;
 
-    @Autowired
-    public UsersDAO(@Qualifier("defaultManager") EntityManager manager) {
-        Objects.requireNonNull(manager, "EntityManager shouldn't be null");
-        this.manager = manager;
-    }
-
+    @Transactional
     public Group createGroup(String name) {
         Group group = new Group(name);
-        manager.getTransaction().begin();
-        try {
-            manager.persist(group);
-        } catch (Throwable cause) {
-            manager.getTransaction().rollback();
-            throw cause;
-        }
-
-        manager.getTransaction().commit();
-
+        manager.persist(group);
         return group;
     }
 
@@ -55,6 +41,7 @@ public class UsersDAO {
         }
     }
 
+    @Transactional
     public User createUser(String login, String password, Color color, Group group) {
         User user = new User();
         user.setLogin(login);
@@ -62,15 +49,7 @@ public class UsersDAO {
         user.setGroup(group);
         user.setPassword(password);
 
-        manager.getTransaction().begin();
-        try {
-            manager.persist(user);
-        } catch (Throwable cause) {
-            manager.getTransaction().rollback();
-            throw cause;
-        }
-
-        manager.getTransaction().commit();
+        manager.persist(user);
 
         return user;
     }
@@ -86,25 +65,17 @@ public class UsersDAO {
         }
     }
 
+    @Transactional
     public void banUser(User user) {
-        manager.getTransaction().begin();
         user.setStatus(UserStatus.BANNED);
-        manager.getTransaction().commit();
     }
 
+    @Transactional
     public void banUserBefore(Date registeredBefore) {
-        manager.getTransaction().begin();
-        try {
             manager.createQuery("UPDATE User set status = :status " +
                     "where registrationDate < :before")
                     .setParameter("status", UserStatus.BANNED)
                     .setParameter("before", registeredBefore)
                     .executeUpdate();
-        } catch (Throwable cause) {
-            manager.getTransaction().rollback();
-            throw cause;
-        }
-
-        manager.getTransaction().commit();
     }
 }

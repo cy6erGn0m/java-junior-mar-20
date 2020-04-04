@@ -9,15 +9,4 @@ import javax.persistence.EntityManagerFactory;
 
 @Configuration
 public class AppConfiguration {
-    @Bean
-    @Qualifier("defaultManager")
-    public EntityManager getEntityManager(EntityManagerFactory factory) {
-        return factory.createEntityManager();
-    }
-
-    @Bean
-    @Qualifier("zzzzManager")
-    public EntityManager getEntityManager1(EntityManagerFactory factory) {
-        return factory.createEntityManager();
-    }
 }

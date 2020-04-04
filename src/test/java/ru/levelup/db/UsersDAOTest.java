@@ -1,41 +1,33 @@
 package ru.levelup.db;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.levelup.model.Color;
 import ru.levelup.model.Group;
 import ru.levelup.model.User;
+import ru.levelup.tests.TestConfiguration;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import static org.junit.Assert.*;
 
+@Ignore
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = TestConfiguration.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class UsersDAOTest {
-    private EntityManagerFactory factory;
-    private EntityManager manager;
+    @Autowired
     private UsersDAO users;
 
-    @Before
-    public void connect() {
-        factory = Persistence.createEntityManagerFactory("TestPersistenceUnit");
-        manager = factory.createEntityManager();
-        users = new UsersDAO(manager);
-    }
-
-    @After
-    public void close() {
-        if (manager != null) {
-            manager.close();
-        }
-        if (factory != null) {
-            factory.close();
-        }
-    }
+    @PersistenceContext
+    private EntityManager manager;
 
     @Test
     public void createGroup() {
