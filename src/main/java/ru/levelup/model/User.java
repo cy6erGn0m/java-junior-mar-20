@@ -3,16 +3,20 @@ package ru.levelup.model;
 import ru.levelup.db.ColorConverter;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Entity
-@Table
 public class User {
     @Id
     @GeneratedValue
     private int id;
 
     @Column(length = 50, nullable = false, unique = true)
+    @Size(min = 4, max = 50, message = "Login should be at least 4 characters length.")
+    @Pattern(regexp = "[a-zA-Z-_.0-9]*",
+            message = "Only letters, digits, underscore, minus sign and " +
+                    " dots are allowed in login.")
     private String login;
 
     @Column(length = 50, nullable = false)
@@ -25,6 +29,11 @@ public class User {
     @Convert(converter = ColorConverter.class)
     private Color color;
 
+    @Column
+    @Max(1000000)
+    @PositiveOrZero
+    private int bonusScore;
+
     @Transient
     private String notStored;
 
@@ -34,6 +43,7 @@ public class User {
     private Group group;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @PastOrPresent
     private Date registrationDate = new Date();
 
     public int getX() {

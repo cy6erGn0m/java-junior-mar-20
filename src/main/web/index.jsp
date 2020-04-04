@@ -15,6 +15,7 @@
     <c:choose>
       <c:when test="${empty sessionScope['verifiedUserName']}">
         <a href="login">Login</a>
+        <a href="user/register">Register</a>
       </c:when>
       <c:otherwise>
         <p>
