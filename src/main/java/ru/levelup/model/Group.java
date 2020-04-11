@@ -1,5 +1,7 @@
 package ru.levelup.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ public class Group {
     public Group() {
     }
 
+    @JsonIgnore
     //    @ManyToMany(mappedBy = "group")
     @OneToMany(mappedBy = "group")
 //    @JoinColumn(name = "group_fk")

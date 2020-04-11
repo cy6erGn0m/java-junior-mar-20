@@ -1,5 +1,7 @@
 package ru.levelup.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.levelup.db.ColorConverter;
 
 import javax.persistence.*;
@@ -20,6 +22,7 @@ public class User {
     private String login;
 
     @Column(length = 50, nullable = false)
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -44,6 +47,7 @@ public class User {
 
     @Temporal(TemporalType.TIMESTAMP)
     @PastOrPresent
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date registrationDate = new Date();
 
     public int getX() {

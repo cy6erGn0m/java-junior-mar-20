@@ -1,12 +1,15 @@
 package ru.levelup.db;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.model.Color;
 import ru.levelup.model.Group;
 import ru.levelup.model.User;
@@ -18,7 +21,6 @@ import javax.persistence.PersistenceException;
 
 import static org.junit.Assert.*;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfiguration.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -26,7 +28,7 @@ public class UsersDAOTest {
     @Autowired
     private UsersDAO users;
 
-    @PersistenceContext
+    @Autowired
     private EntityManager manager;
 
     @Test
@@ -36,8 +38,14 @@ public class UsersDAOTest {
         assertEquals("test-group", created.getName());
         assertNotEquals(0, created.getId());
 
-        Group foundById = manager.find(Group.class, created.getId());
+        findGroup(created.getId());
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public Group findGroup(int id) {
+        Group foundById = manager.find(Group.class, id);
         manager.refresh(foundById);
+        return foundById;
     }
 
     @Test
