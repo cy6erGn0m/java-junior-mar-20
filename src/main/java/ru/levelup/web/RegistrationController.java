@@ -1,6 +1,7 @@
 package ru.levelup.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -20,6 +21,9 @@ import java.util.List;
 public class RegistrationController {
     @Autowired
     private UsersDAO users;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @ModelAttribute("form")
     public RegistrationForm createForm() {
@@ -69,8 +73,10 @@ public class RegistrationController {
             return "register";
         }
 
+        String encodedPassword = encoder.encode(form.getPassword());
+
         try {
-            users.createUser(form.getLogin(), form.getPassword(),
+            users.createUser(form.getLogin(), encodedPassword,
                     new Color(1, 2, 3), group);
         } catch (Throwable cause) {
             validationResult.addError(

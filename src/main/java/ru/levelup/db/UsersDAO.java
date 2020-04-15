@@ -42,12 +42,12 @@ public class UsersDAO {
     }
 
     @Transactional
-    public User createUser(String login, String password, Color color, Group group) {
+    public User createUser(String login, String encodedPassword, Color color, Group group) {
         User user = new User();
         user.setLogin(login);
         user.setColor(color);
         user.setGroup(group);
-        user.setPassword(password);
+        user.setEncodedPassword(encodedPassword);
 
         manager.persist(user);
 

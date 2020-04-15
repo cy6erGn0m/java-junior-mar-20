@@ -7,20 +7,20 @@
     <script type="text/javascript" src="scripts/index.js"></script>
   </head>
   <body onload="loadUserStat()">
-    <c:if test="${not empty sessionScope['verifiedUserName']}">
+    <c:if test="${not empty username}">
     <p>
-      ${sessionScope['verifiedUserName']}
+      ${username}
     </p>
     </c:if>
 
     <c:choose>
-      <c:when test="${empty sessionScope['verifiedUserName']}">
-        <a href="login">Login</a>
+      <c:when test="${empty username}">
+        <a href="login-page">Login</a>
         <a href="user/register">Register</a>
       </c:when>
       <c:otherwise>
         <p>
-            Hello, ${sessionScope['verifiedUserName']}.
+            Hello, ${username}.
         </p>
       </c:otherwise>
     </c:choose>

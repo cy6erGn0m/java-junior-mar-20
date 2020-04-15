@@ -18,7 +18,6 @@ import java.util.List;
         path = "users-api")
 public interface UsersRepository extends PagingAndSortingRepository<User, Integer> {
     User findByLogin(@Param("loginName") String login);
-    User findByLoginAndPassword(String login, String password);
 
     Page<User> findByStatusOrderByLogin(UserStatus status, Pageable page);
 

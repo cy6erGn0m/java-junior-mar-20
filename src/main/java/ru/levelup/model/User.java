@@ -21,9 +21,9 @@ public class User {
                     " dots are allowed in login.")
     private String login;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 70, nullable = false)
     @JsonIgnore
-    private String password;
+    private String encodedPassword;
 
     @Enumerated(EnumType.STRING)
     private UserStatus status;
@@ -94,12 +94,12 @@ public class User {
         this.color = color;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEncodedPassword() {
+        return encodedPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEncodedPassword(String password) {
+        this.encodedPassword = password;
     }
 
     public Date getRegistrationDate() {

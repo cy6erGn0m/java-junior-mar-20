@@ -1,6 +1,7 @@
 package ru.levelup.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,17 +19,16 @@ public class LoginController {
     @Autowired
     private UsersRepository users;
 
-    @GetMapping(path = "/login")
+    @Autowired
+    private PasswordEncoder encoder;
+
+    @GetMapping(path = "/login-page")
     public String loginPage(@RequestParam(required = false) String login,
                             HttpSession session) {
-        if (session.getAttribute(VERIFIED_USER_NAME_ATTRIBUTE) != null) {
-            return "redirect:/";
-        }
-
         return "login";
     }
 
-    @PostMapping(path = "/login")
+//    @PostMapping(path = "/submit-login-form")
     public String processLoginForm(HttpSession session,
                                    @RequestParam("usernameField") String username,
                                    @RequestParam("passwordField") String password) {
@@ -38,7 +38,7 @@ public class LoginController {
 
         User user = users.findByLogin(username);
 
-        if (user != null && password.equals(user.getPassword())) {
+        if (user != null && encoder.matches(password, user.getEncodedPassword())) {
             session.setAttribute(VERIFIED_USER_NAME_ATTRIBUTE, username);
             return "redirect:/";
         } else {

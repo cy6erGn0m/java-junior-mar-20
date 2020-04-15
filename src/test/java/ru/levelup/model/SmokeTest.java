@@ -1,7 +1,6 @@
 package ru.levelup.model;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,7 +36,7 @@ public class SmokeTest {
         User user = new User();
         user.setLogin("test-user");
         user.setColor(new Color(1, 2, 3));
-        user.setPassword("111");
+        user.setEncodedPassword("111");
 
         Group group = new Group();
         group.setName("test-group");

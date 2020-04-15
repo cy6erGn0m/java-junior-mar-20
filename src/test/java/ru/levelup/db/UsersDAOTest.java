@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.model.Color;
@@ -16,7 +14,6 @@ import ru.levelup.model.User;
 import ru.levelup.tests.TestConfiguration;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import static org.junit.Assert.*;
@@ -100,7 +97,7 @@ public class UsersDAOTest {
         user.setLogin("login2");
         user.setGroup(g);
         user.setColor(new Color(2, 3, 4));
-        user.setPassword("111");
+        user.setEncodedPassword("111");
 
         manager.getTransaction().begin();
         manager.persist(g);
