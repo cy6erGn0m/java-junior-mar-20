@@ -10,7 +10,9 @@ import java.security.Principal;
 public class MainPageController {
     @GetMapping("/")
     public String mainPage(Principal principal, ModelMap model) {
-        model.addAttribute("username", principal.getName());
+        if (principal != null) {
+            model.addAttribute("username", principal.getName());
+        }
         return "index";
     }
 }
