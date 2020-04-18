@@ -28,5 +28,9 @@
   <p>Title: <span id="title">...</span></p>
   <p>Users count: <span id="users-count">...</span></p>
   <p>Some user: <span id="user-login">...</span></p>
+
+  <table>
+    <tbody id="elements-table-body"></tbody>
+  </table>
   </body>
 </html>
