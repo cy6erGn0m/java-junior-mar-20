@@ -24,5 +24,5 @@ public interface UsersRepository extends PagingAndSortingRepository<User, Intege
     Page<User> findByBonusScoreGreaterThan(int bonusScore, Pageable page);
 
     @Query("select u from User u where u.bonusScore > :bonusScore")
-    List<User> findUsersScoreTooBig(int bonusScore);
+    List<User> findUsersScoreTooBig(@Param("bonusScore") int bonusScore);
 }
