@@ -10,6 +10,7 @@ import ru.levelup.db.UsersRepository;
 import ru.levelup.model.User;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 @Controller
 public class LoginController {
@@ -24,7 +25,10 @@ public class LoginController {
 
     @GetMapping(path = "/login-page")
     public String loginPage(@RequestParam(required = false) String login,
-                            HttpSession session) {
+                            Principal principal) {
+        if (principal != null) {
+            return "redirect:/";
+        }
         return "login";
     }
 

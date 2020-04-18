@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.levelup.web.ProdConfiguration;
 import ru.levelup.web.WebConfiguration;
 
@@ -21,4 +22,9 @@ public class TestConfiguration {
         bean.setPersistenceUnitName("TestPersistenceUnit");
         return bean;
     }
+
+//    @Bean
+//    public UserDetailsService testService() {
+//        return new TestDetailsService();
+//    }
 }

@@ -18,7 +18,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/pages/**", "**/*.jsp").denyAll()
-                .antMatchers("/", "/login-page", "/submit-login-form", "/user/register", "/scripts/**").permitAll()
+                .antMatchers("/", "/login-page", "/submit-login-form", "/scripts/**").permitAll()
+                .antMatchers("/user/register").anonymous()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .antMatchers("/api/user-stat").permitAll()
